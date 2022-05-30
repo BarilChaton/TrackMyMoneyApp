@@ -53,16 +53,20 @@ namespace TrackMyMoneyApp
         {
             Console.Clear();
 
-            string prompt = "Select which transaction you wish to edit:";
-            string[] showItemOptions = { /* somekind of array or list reference to transactions here... */ };
-            Menu mainMenu = new Menu(prompt, showItemOptions);
-            int selectedIndex = mainMenu.Run();
+            //string prompt = "Select which transaction you wish to edit:";
 
-            switch (selectedIndex)
+            for (int i = 0; i < transactionsList.Count; i++)
             {
-                /* how to implement the cases of the list or array of items made by the user in
-                 * AddNewItem class.*/
+                Console.WriteLine(transactionsList[i]);
             }
+
+            //var alltItems = transactionsList;
+            //string[] showItemOptions = {transactionsList.ToString()};
+            //Menu mainMenu = new Menu(prompt, showItemOptions);
+            //int selectedIndex = mainMenu.Run();
+
+            
+            
 
             // Editing code here...
 
