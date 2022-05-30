@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrackMyMoneyApp
 {
-    class EditItem : App
+    class EditItem : AddNewItem
     {
         public void RunEditItem()
         {
@@ -44,8 +44,27 @@ namespace TrackMyMoneyApp
             }
         }
 
+        public List<Transaction> GetList()
+        {
+            return transactionsList;
+        }
+
         public void EditListItem()
         {
+            Console.Clear();
+
+            string prompt = "Select which transaction you wish to edit:";
+            string[] showItemOptions = { /* somekind of array or list reference to transactions here... */ };
+            Menu mainMenu = new Menu(prompt, showItemOptions);
+            int selectedIndex = mainMenu.Run();
+
+            switch (selectedIndex)
+            {
+                /* how to implement the cases of the list or array of items made by the user in
+                 * AddNewItem class.*/
+            }
+
+            // Editing code here...
 
         }
 
