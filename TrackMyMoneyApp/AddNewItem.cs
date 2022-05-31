@@ -71,7 +71,6 @@ namespace TrackMyMoneyApp
             double addCash = Double.Parse(Console.ReadLine());
 
             Console.WriteLine("Which month?");
-            //string addMonth = Console.ReadLine();
             DateTime inputDate;
         ERROR1: try
             {
@@ -93,18 +92,23 @@ namespace TrackMyMoneyApp
             transactionInput.setTransactionValue(addCash);
             transactionInput.setTransactionMonth(inputDate);
             totalMoney += addCash;
+            balanceString = totalMoney.ToString();
 
             transactionsList.Add(transactionInput);
 
             var stringBuilder = new StringBuilder();
+            var balanceBuilder = new StringBuilder();
+            balanceBuilder.AppendLine(balanceString);
 
             foreach (var transaction in transactionsList)
             {
                 Console.Clear();
                 stringBuilder.Clear();
-                //Console.WriteLine(transaction.toString());
                 Console.WriteLine("\nYour new balance is " + totalMoney);
-                stringBuilder.AppendLine(transaction.TransactionType.PadRight(25) + transaction.TransactionProperty.PadRight(35) + transaction.TransactionValue.ToString().PadRight(25) + transaction.TransactionMonth.ToString("yyyy-MM-dd"));
+                stringBuilder.AppendLine(transaction.TransactionType.PadRight(25) + 
+                                         transaction.TransactionProperty.PadRight(35) + 
+                                         transaction.TransactionValue.ToString().PadRight(25) + 
+                                         transaction.TransactionMonth.ToString("yyyy-MM-dd"));
             }
             File.AppendAllText(Program.path, stringBuilder.ToString());
             
@@ -155,7 +159,8 @@ namespace TrackMyMoneyApp
             transactionInput.setTransactionProperty(addCashName);
             transactionInput.setTransactionValue(addCash);
             transactionInput.setTransactionMonth(inputDate);
-            
+
+            var stringBuilder = new StringBuilder();
 
             if (totalMoney < addCash)
             {
@@ -180,12 +185,15 @@ namespace TrackMyMoneyApp
                 foreach (var transaction in transactionsList)
                 {
                     Console.Clear();
+                    stringBuilder.Clear();
                     //Console.WriteLine(transaction.toString());
                     Console.WriteLine("\nYour new balance is " + totalMoney);
-
-                    
+                    stringBuilder.AppendLine(transaction.TransactionType.PadRight(25) + 
+                                             transaction.TransactionProperty.PadRight(35) + 
+                                             transaction.TransactionValue.ToString().PadRight(25) + 
+                                             transaction.TransactionMonth.ToString("yyyy-MM-dd"));
                 }
-                File.WriteAllText(Program.path, transactionsList.ToString());
+                File.AppendAllText(Program.path, stringBuilder.ToString());
                 Console.WriteLine("Do you wish to add an expense? Y/N");
                 YorN = Console.ReadLine();
                 if (YorN.ToLower().Trim() == "y")
@@ -199,8 +207,6 @@ namespace TrackMyMoneyApp
                     RunAddNewItem();
                 }
             }
-
-            
         }
         public void Print()
         {
@@ -212,11 +218,13 @@ namespace TrackMyMoneyApp
             // Sort the items first by date and then by type:
             transactionsList = transactionsList.OrderBy(transaction => transaction.TransactionMonth).ThenBy(transaction => transaction.TransactionType).ToList();
             string[] lines = System.IO.File.ReadAllLines(Program.path);
+            string[] lines2 = System.IO.File.ReadAllLines(Program.path2);
             foreach (string line in lines)
             {
                 Console.WriteLine("\t" + line);
                 //Console.WriteLine(transaction.TransactionType.PadRight(25) + transaction.TransactionProperty.PadRight(35) + transaction.TransactionValue.ToString().PadRight(25) + transaction.TransactionMonth.ToString("yyyy-MM-dd"));
             }
+            foreach 
             Console.WriteLine("\nPress any key to return to main menu.");
             ReadKey(true);
             RunMainMenu();

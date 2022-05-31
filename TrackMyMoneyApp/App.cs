@@ -11,7 +11,8 @@ namespace TrackMyMoneyApp
         public static List<Transaction> transactionsList = new List<Transaction>();
         public string YorN; // Yes or No answer
         // Not set in stone.
-        public static double totalMoney = 0;
+        public static double totalMoney;
+        public string balanceString = totalMoney.ToString();
 
 
         public void Start()
@@ -33,7 +34,7 @@ namespace TrackMyMoneyApp
 #  /_/ /_/   \__,_/\___/_/|_/_/  /_/\__, /_/  /_/\____/_/ /_/\___/\__, /  
 #                                  /____/                        /____/  " +
 "\n\nWelcome to the TrackMyMoney app!" +
-"\nYou have " + totalMoney + "kr on your account" +
+"\nYou have " + balanceString + "kr on your account" +
 "\nWhat would you like to do?" +
 "\n(Use the Arrow keys to cycle through options and press enter to select an option.)\n";
 
