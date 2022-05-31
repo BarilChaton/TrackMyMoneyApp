@@ -51,22 +51,25 @@ namespace TrackMyMoneyApp
 
         public void EditListItem()
         {
+            AddNewItem addNewItem = new AddNewItem();
             Console.Clear();
+            addNewItem.Print();
+
 
             //string prompt = "Select which transaction you wish to edit:";
 
-            for (int i = 0; i < transactionsList.Count; i++)
-            {
-                Console.WriteLine(transactionsList[i]);
-            }
+            //for (int i = 0; i < transactionsList.Count; i++)
+            //{
+            //    Console.WriteLine(transactionsList[i]);
+            //}
 
             //var alltItems = transactionsList;
             //string[] showItemOptions = {transactionsList.ToString()};
             //Menu mainMenu = new Menu(prompt, showItemOptions);
             //int selectedIndex = mainMenu.Run();
 
-            
-            
+
+
 
             // Editing code here...
 

@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using static System.Console;
 using System.Linq;
+using System.IO;
+using System.Text;
 
 namespace TrackMyMoneyApp
 {
     class AddNewItem : App
     {
+
         // transactions list to modify
         //public static List<Transaction> transactionsList = new List<Transaction>();
+
         public List<Transaction> TransactionsList
         {
             get { return transactionsList; }
@@ -56,6 +60,7 @@ namespace TrackMyMoneyApp
 
         public void AddIncome() // Adds income to list, makes the user type the thing.
         {
+            
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
             string type = "Income";
@@ -91,14 +96,20 @@ namespace TrackMyMoneyApp
 
             transactionsList.Add(transactionInput);
 
+            var stringBuilder = new StringBuilder();
+
             foreach (var transaction in transactionsList)
             {
                 Console.Clear();
+                stringBuilder.Clear();
                 //Console.WriteLine(transaction.toString());
                 Console.WriteLine("\nYour new balance is " + totalMoney);
+                stringBuilder.AppendLine(transaction.TransactionType.PadRight(25) + transaction.TransactionProperty.PadRight(35) + transaction.TransactionValue.ToString().PadRight(25) + transaction.TransactionMonth.ToString("yyyy-MM-dd"));
             }
+            File.AppendAllText(Program.path, stringBuilder.ToString());
+            
 
-            Console.WriteLine("Do you wish to add income? Y/N");
+                Console.WriteLine("Do you wish to add income? Y/N");
             YorN = Console.ReadLine();
             if (YorN.ToLower().Trim() == "y")
             {
@@ -162,6 +173,9 @@ namespace TrackMyMoneyApp
                 Console.ForegroundColor = ConsoleColor.White;
                 transactionsList.Add(transactionInput);
                 totalMoney -= addCash;
+                
+
+                File.AppendAllLines(@"C:\Users\Elev\source\repos\TrackMyMoneyApp\transactions.txt", (IEnumerable<string>)transactionsList);
 
                 foreach (var transaction in transactionsList)
                 {
@@ -169,18 +183,20 @@ namespace TrackMyMoneyApp
                     //Console.WriteLine(transaction.toString());
                     Console.WriteLine("\nYour new balance is " + totalMoney);
 
-                    Console.WriteLine("Do you wish to add an expense? Y/N");
-                    YorN = Console.ReadLine();
-                    if (YorN.ToLower().Trim() == "y")
-                    {
-                        AddExpense();
-                        YorN = null;
-                    }
-                    else if (YorN.ToLower().Trim() == "n")
-                    {
-                        Console.Clear();
-                        RunAddNewItem();
-                    }
+                    
+                }
+                File.WriteAllText(Program.path, transactionsList.ToString());
+                Console.WriteLine("Do you wish to add an expense? Y/N");
+                YorN = Console.ReadLine();
+                if (YorN.ToLower().Trim() == "y")
+                {
+                    AddExpense();
+                    YorN = null;
+                }
+                else if (YorN.ToLower().Trim() == "n")
+                {
+                    Console.Clear();
+                    RunAddNewItem();
                 }
             }
 
@@ -194,11 +210,12 @@ namespace TrackMyMoneyApp
             Console.WriteLine("\n#==================================================================================================#\n");
 
             // Sort the items first by date and then by type:
-            transactionsList = transactionsList.OrderBy(asset => asset.TransactionMonth).ThenBy(asset => asset.TransactionType).ToList();
-
-            foreach (var transaction in transactionsList)
+            transactionsList = transactionsList.OrderBy(transaction => transaction.TransactionMonth).ThenBy(transaction => transaction.TransactionType).ToList();
+            string[] lines = System.IO.File.ReadAllLines(Program.path);
+            foreach (string line in lines)
             {
-                Console.WriteLine(transaction.TransactionType.PadRight(25) + transaction.TransactionProperty.PadRight(35) + transaction.TransactionValue.ToString().PadRight(25) + transaction.TransactionMonth.ToString("yyyy-MM-dd"));
+                Console.WriteLine("\t" + line);
+                //Console.WriteLine(transaction.TransactionType.PadRight(25) + transaction.TransactionProperty.PadRight(35) + transaction.TransactionValue.ToString().PadRight(25) + transaction.TransactionMonth.ToString("yyyy-MM-dd"));
             }
             Console.WriteLine("\nPress any key to return to main menu.");
             ReadKey(true);
